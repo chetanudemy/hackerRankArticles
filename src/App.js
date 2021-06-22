@@ -7,7 +7,7 @@ import Articles from './components/Articles';
 const title = 'Sorting Articles';
 
 function App({ articles }) {
-  const [articlelist, setarticleList] = useState(articles.sort(compare));
+  const [articlelist, setList] = useState(articles.sort(compare));
 
   function compare(a, b) {
     if (a.upvotes < b.upvotes) {
@@ -19,8 +19,17 @@ function App({ articles }) {
     return 0;
   }
 
+  function compareAsc(a, b) {
+    if (a.upvotes < b.upvotes) {
+      return -1;
+    }
+    if (a.upvotes > b.upvotes) {
+      return 1;
+    }
+    return 0;
+  }
+
   function dateCompare(a, b) {
-    // console.log(new Date(a.date).getTime());
     if (new Date(a.date).getTime() < new Date(b.date).getTime()) {
       return 1;
     }
@@ -31,15 +40,18 @@ function App({ articles }) {
   }
 
   const upvotedHandler = () => {
-    const newList = articlelist.sort(compare);
-    setarticleList(newList);
+    const newList = articlelist.sort(compareAsc);
+    console.log(newList);
+    setList(newList);
   };
 
   const recentHandler = () => {
-    const newList = articlelist.sort(dateCompare);
-    setarticleList(newList);
+    const newListdata = articlelist.sort(dateCompare);
+    console.log(newListdata);
+    setList(newListdata);
   };
 
+  console.log(articlelist);
   return (
     <div className='App'>
       <h8k-navbar header={title}></h8k-navbar>
@@ -51,7 +63,7 @@ function App({ articles }) {
           data-testid='most-upvoted-link'
           className='small'
           onClick={upvotedHandler}>
-          Most Upvoted
+          Least Upvoted
         </button>
         <button
           data-testid='most-recent-link'
